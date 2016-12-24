@@ -24,9 +24,13 @@ def populateQueueTable(dbName):
 def insertRecords(dbName):
     conn = sqlite3.connect(dbName)
     crusor = conn.cursor()
-    crusor.execute("INSERT INTO tracks VALUES (1, 'Chase The Sun','Planet Funk','Planet_Funk-Chase_the_Sun', 0.0)")
-    crusor.execute("INSERT INTO tracks VALUES (2, 'Tuk Spot','Clyde Carson','Clyde_Carson-Tuk_Spot', 0.0)")
-    crusor.execute("INSERT INTO tracks VALUES (3, 'Cant get u outta my mind','Mall Grab','mall_grab_-_can_39_t_get_u_outta_my_mind', 0.0)")
+    # crusor.execute("INSERT INTO tracks VALUES (1, 'Chase The Sun','Planet Funk','Planet_Funk-Chase_the_Sun', 0.0)")
+    # crusor.execute("INSERT INTO tracks VALUES (2, 'Tuk Spot','Clyde Carson','Clyde_Carson-Tuk_Spot', 0.0)")
+    # crusor.execute("INSERT INTO tracks VALUES (3, 'Cant get u outta my mind','Mall Grab','mall_grab_-_can_39_t_get_u_outta_my_mind', 0.0)")
+    crusor.execute("INSERT INTO tracks VALUES (4, 'Still D.R.E','Dr Dre','04_-_Still_Dre', 0.0)")
+    crusor.execute("INSERT INTO tracks VALUES (5, 'Sound Bway Bureill',NULL,'13_-_Sound_Bway_Bureill', 0.0)")
+    crusor.execute("INSERT INTO tracks VALUES (6, 'Feed Your Head Original Version','Paul Kalkbrenner','Paul_Kalkbrenner_-_Feed_Your_Head_Original_Version', 0.0)")
+    # crusor.execute("INSERT INTO tracks VALUES (7, 'Cant get u outta my mind','Mall Grab','mall_grab_-_can_39_t_get_u_outta_my_mind', 0.0)")
     conn.commit()
     conn.close()
 
@@ -39,5 +43,5 @@ def createDB():
 
 
 if __name__ == '__main__':
-    createDB()
-    # insertRecords('databaseV1.db')
+    # createDB()
+     insertRecords('databaseV2.db')

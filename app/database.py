@@ -4,7 +4,7 @@ import json, sqlite3
 # just id's of songs
 
 config = {
-    'databaseLocation' : '/Users/henri/Projects/PythonRESTfulMusic/app/database/',
+    'databaseLocation' : '/Users/henri/Projects/GIT/RestfulMusicPython/app/database/',
     'databaseName' : 'databaseV2.db'
 }
 
@@ -72,6 +72,9 @@ def getAllTracks():
         connectTodb()
 
     return {'tracks': [formatTrack(track) for track in cursor.execute('SELECT * FROM tracks')]}
+
+def defaultQueue():
+    return getAllTracks()['tracks']
 
 def getAllQueues():
     global conn, cursor

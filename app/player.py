@@ -7,34 +7,17 @@ currentSong = 0
 
 options = {
  'loop':True,
- 'trackPath':'/Users/henri/Projects/PythonRESTfulMusic/app/tracks/',
+ 'trackPath':'/Users/henri/Projects/GIT/RestfulMusicPython/app/tracks/',
  'audioExtension':'.wav'
 }
 
-defaultQueue = database.getQueueByIdWithTracks(1)
-
-defaltQueue = [
-    {
-        'track_id': 420,
-        'name': u'Chase The Sun',
-        'artist': u'Planet Funk',
-        'file_name': u'Planet_Funk-Chase_the_Sun',
-        'length':'NA'
-    },
-    {
-        'track_id': 420,
-        'name': u'Chase The Sun',
-        'artist': u'Planet Funk',
-        'file_name': u'Clyde_Carson-Tuk_Spot',
-        'length':'NA'
-    }
-]
-
-queue = defaltQueue
+queue = None
 
 # When player startes up default queue from config is loaded and also wheter to repeat
 # if there is no queue then just play all songs from database
 def initilzation():
+    global queue
+    queue = database.defaultQueue()
     mixer.init()
     trackLocation = getTrackLocation(queue[currentSong])
     mixer.music.load(trackLocation)
