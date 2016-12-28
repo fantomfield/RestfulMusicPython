@@ -1,4 +1,5 @@
 import json
+import _thread
 from app import database
 from pygame import mixer
 from time import sleep
@@ -12,7 +13,7 @@ options = {
 }
 
 queue = None
-
+paused = True
 # When player startes up default queue from config is loaded and also wheter to repeat
 # if there is no queue then just play all songs from database
 def initilzation():
@@ -23,6 +24,7 @@ def initilzation():
     mixer.music.load(trackLocation)
     mixer.music.play()
     mixer.music.pause()
+    _thread.start_new_thread(continousPlayback,())
 
 def getTrackLocation(track):
     return options['trackPath'] + track['file_name'] + options['audioExtension']
@@ -36,24 +38,28 @@ def playing():
         return True
 
 def stop():
+    global paused, currentSong
+    paused = True
     mixer.music.stop()
 
 def play(track=None):
+    global paused
 
     if track is not None:
         trackLocation = getTrackLocation(track)
         mixer.music.load(trackLocation)
-        mixer.music.play()
-    elif(not playing()):
-        trackLocation = getTrackLocation(queue[0])
+    elif(not paused):
+        trackLocation = getTrackLocation(queue[currentSong])
         mixer.music.load(trackLocation)
-        mixer.music.play()
-        trackLocation = getTrackLocation(queue[1])
-        mixer.music.queue(trackLocation)
+    mixer.music.play()
+
+    paused = False
         # mixer.music.play()
         # mixer.music.unpause()
 
 def pause():
+    global paused
+    paused = False
     mixer.music.pause()
 
 def validTrack(track):
@@ -97,18 +103,15 @@ def playPrevious():
     play(songToPlay)
     return songToPlay
 
-#
-# def
+def continousPlayback():
+    global paused
+
+    while True:
+        sleep(0.1)
+        if options['loop'] and paused == False and mixer.music.get_busy() == 0:
+            playNext()
 
 
-
-# Queue()
-#     return current song q json,
-#             count:int
-#             current_song:int
-#             Repeat:boolean
-#             Song_List
-#
 # AddQueue(Song)
 #     Adds song to Queue
 #     Returns json Queue
@@ -120,24 +123,14 @@ def playPrevious():
 # SaveQueue(name)
 #     Saves current queue to db with
 #     returns 'Saved queue'/error
-#
-# Queue(queue)
-#     Changes queue
-#     Returns Queue
-#
+
 # Volume
 #     returns Current Volume
 #
 # Volume(int)
 #     sets Volume
 #     Returns new volume/Error
-#
-# NextSong()
-#     Plays nextSongInQueue
-#
-# PrevSong()
-#     Plays previous Song
-#
+
 # RestartSong()
 #     Plays Current song from begining
 #     return true/false
